@@ -14,6 +14,6 @@ out vec4 fragmentColor;
 
 void main(){
 	fragmentColor = clr;
-	vec3 new_pos = pos*(1.0+1.25*sin(pos.x+pos.y+pos.z+5.0*time)*cos(pos.x+pos.y+pos.z));
+	vec3 new_pos = pos*(1.0+1.25*sin(pos.x+pos.y+pos.z+5.0*time));
 	gl_Position =  projection * view * model * vec4(new_pos, 1.0f);
 }

@@ -32,7 +32,7 @@ Manager::~Manager(){}
 // Game loop
 void Manager::loop(){
     // Load shader
-    GLuint programID = LoadShaders( "shaders/shader.vs", "shaders/shader.fs" );
+    GLuint programID = LoadShaders( "shader.vs", "shader.fs" );
     // Verices and colors for cube
 	static const GLfloat vertexData[] = {
         // Face 0

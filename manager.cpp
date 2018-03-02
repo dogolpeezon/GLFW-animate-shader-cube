@@ -28,51 +28,51 @@ float lastFrame = 0.0f;
 Manager::Manager( bool bRun ): bRun( bRun ),
 pWindow( glfwGetCurrentContext() ){}
 // Destructor
-Manager::~Manager(){}
+Manager::~Manager(){std::cout << "~Manager" << '\n';}
 // Game loop
 void Manager::loop(){
     // Load shader
-    GLuint programID = LoadShaders( "shader.vs", "shader.fs" );
+    GLuint programID = LoadShaders( "shaders/shader.vs", "shaders/shader.fs" );
     // Verices and colors for cube
 	static const GLfloat vertexData[] = {
         // Face 0
-		 0.5f, 0.5f, 0.5f,    -0.5f, 0.5f, 0.5f,     0.5f, -0.5f, 0.5f,
-		 0.5f, -0.5f, 0.5f,   -0.5f, 0.5f, 0.5f,    -0.5f, -0.5f, 0.5f,
+		 -0.5f, 0.5f, -0.5f,    0.5f, 0.5f, -0.5f,    - 0.5f, -0.5f, -0.5f,
+		 0.5f, 0.5f, -0.5f,   -0.5f, -0.5f, -0.5f,    0.5f, -0.5f, -0.5f,
         // Face 1
-		 0.5f, 0.5f, 0.5f,    0.5f, -0.5f, 0.5f,     0.5f, 0.5f, -0.5f,
-		 0.5f, 0.5f, -0.5f,   0.5f, -0.5f, 0.5f,     0.5f, -0.5f, -0.5f,
+		 -0.5f, -0.5f, -0.5f,    0.5f, -0.5f, -0.5f,     0.5f, -0.5f, 0.5f,
+		 0.5f, -0.5f, -0.5f,   0.5f, -0.5f, 0.5f,     0.5f, 0.5f, -0.5f,
         // Face 2
-		 0.5f, 0.5f, 0.5f,    0.5f, 0.5f, -0.5f,    -0.5f, 0.5f, 0.5f,
-		-0.5f, 0.5f, 0.5f,    0.5f, 0.5f, -0.5f,    -0.5f, 0.5f, -0.5f,
+		 0.5f, -0.5f, 0.5f,    0.5f, 0.5f, -0.5f,    0.5f, 0.5f, 0.5f,
+		0.5f, 0.5f, -0.5f,    0.5f, 0.5f, 0.5f,    -0.5f, 0.5f, -0.5f,
         // Face 3
-		 0.5f, 0.5f, -0.5f,   0.5f, -0.5f, -0.5f,   -0.5f, 0.5f, -0.5f,
-		-0.5f, 0.5f, -0.5f,   0.5f, -0.5f, -0.5f,   -0.5f, -0.5f, -0.5f,
+		 0.5f, 0.5f, 0.5f,   -0.5f, 0.5f, -0.5f,   -0.5f, 0.5f, 0.5f,
+		-0.5f, 0.5f, -0.5f,   -0.5f, 0.5f, 0.5f,   -0.5f, -0.5f, -0.5f,
         // Face 4
-		-0.5f, 0.5f, 0.5f,   -0.5f, 0.5f, -0.5f,    -0.5, -0.5f, 0.5f,
-		-0.5f, -0.5f, 0.5f,  -0.5f, 0.5f, -0.5f,	-0.5f, -0.5f, -0.5f,
+		-0.5f, 0.5f, 0.5f,   -0.5f, -0.5f, -0.5f,    -0.5, -0.5f, 0.5f,
+		-0.5f, -0.5f, -0.5f,  -0.5f, -0.5f, 0.5f,	0.5f, -0.5f, 0.5f,
         // Face 5
-		 0.5f, -0.5f, 0.5f,  -0.5f, -0.5f, 0.5f,     0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,    -0.5f, -0.5f, -0.5f
+		 -0.5f, -0.5f, 0.5f,  0.5f, -0.5f, 0.5f,     -0.5f, 0.5f, 0.5f,
+		 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f,    0.5f, 0.5f, 0.5f
 	};
 	static const GLfloat colorData[] = {
         // Face 0
-		1.0f,  1.0f,  0.0f,   	0.0f,  1.0f,  0.0f,		1.0f,  0.0f,  0.0f,
-		1.0f,  0.0f,  0.0f,		0.0f,  1.0f,  0.0f,		0.0f,  0.0f,  0.0f,
+		0.0f,  1.0f,  0.0f,   	1.0f,  1.0f,  0.0f,		0.0f,  0.0f,  0.0f,
+		1.0f,  1.0f,  0.0f,		0.0f,  0.0f,  0.0f,		1.0f,  0.0f,  0.0f,
         // Face 1
-		1.0f,  1.0f,  0.0f,		1.0f,  0.0f,  0.0f,		1.0f,  1.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,		1.0f,  0.0f,  0.0f,		1.0f,  0.0f,  1.0f,
+		0.0f,  0.0f,  0.0f,		1.0f,  0.0f,  0.0f,		1.0f,  0.0f,  1.0f,
+		1.0f,  0.0f,  0.0f,		1.0f,  0.0f,  1.0f,		1.0f,  1.0f,  0.0f,
         // Face 2
+		1.0f,  0.0f,  1.0f,		1.0f,  1.0f,  0.0f,		1.0f,  1.0f,  1.0f,
 		1.0f,  1.0f,  0.0f,		1.0f,  1.0f,  1.0f,		0.0f,  1.0f,  0.0f,
-		0.0f,  1.0f,  0.0f,		1.0f,  1.0f,  1.0f,		0.0f,  1.0f,  1.0f,
         // Face 3
-		1.0f,  1.0f,  1.0f,		1.0f,  0.0f,  1.0f,		1.0f,  0.0f,  0.0f,
-		0.0f,  1.0f,  1.0f,		1.0f,  0.0f,  1.0f,		0.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,		0.0f,  1.0f,  0.0f,		0.0f,  1.0f,  1.0f,
+		0.0f,  1.0f,  0.0f,		0.0f,  1.0f,  1.0f,		0.0f,  0.0f,  0.0f,
         // Face 4
-	    0.0f,  1.0f,  0.0f,		0.0f,  1.0f,  1.0f,		0.0f,  0.0f,  0.0f,
-		0.0f,  0.0f,  0.0f,		0.0f,  1.0f,  1.0f,		0.0f,  0.0f,  1.0f,
+	    0.0f,  1.0f,  1.0f,		0.0f,  0.0f,  0.0f,		0.0f,  0.0f,  1.0f,
+		0.0f,  0.0f,  0.0f,		0.0f,  0.0f,  1.0f,		1.0f,  0.0f,  1.0f,
         // Face 5
-		0.0f,  0.0f,  1.0f,		0.0f,  0.0f,  0.0f,		1.0f,  0.0f,  1.0f,
-		1.0f,  0.0f,  1.0f,		0.0f,  0.0f,  0.0f,		0.0f,  0.0f,  1.0f
+		0.0f,  0.0f,  1.0f,		1.0f,  0.0f,  1.0f,		0.0f,  1.0f,  1.0f,
+		1.0f,  0.0f,  1.0f,		0.0f,  1.0f,  1.0f,		1.0f,  1.0f,  1.0f
 	};
 
     // Make and bind VAO
@@ -182,38 +182,38 @@ Manager &Manager::getManager(){
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
-        GLFWwindow *pWindow = glfwCreateWindow( (int)SCREEN_SIZE.x,
-            (int)SCREEN_SIZE.y, "NULL", NULL, NULL );
-        if( !pWindow )
-            throw std::runtime_error( "glfwCreateWindow failed..");
+            GLFWwindow *pWindow = glfwCreateWindow( (int)SCREEN_SIZE.x,
+                (int)SCREEN_SIZE.y, "NULL", NULL, NULL );
+            if( !pWindow )
+                throw std::runtime_error( "glfwCreateWindow failed..");
 
-        glfwMakeContextCurrent( pWindow );
-        // Get FBS for win resize
-        glfwGetFramebufferSize(pWindow, &width, &height);
-        glfwSetCursorPosCallback( pWindow, mouse_callback );
-        glfwSetScrollCallback( pWindow, scroll_callback );
-        glfwSetInputMode( pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
-        glfwSwapInterval(1);
+            glfwMakeContextCurrent( pWindow );
+            // Get FBS for win resize
+            glfwGetFramebufferSize(pWindow, &width, &height);
+            glfwSetCursorPosCallback( pWindow, mouse_callback );
+            glfwSetScrollCallback( pWindow, scroll_callback );
+            glfwSetInputMode( pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
+            glfwSwapInterval(1);
 
-        glewExperimental = GL_TRUE;
-        if( glewInit() != GLEW_OK )
-            throw std::runtime_error( "glewInit failed.." );
+            glewExperimental = GL_TRUE;
+            if( glewInit() != GLEW_OK )
+                throw std::runtime_error( "glewInit failed.." );
 
-        // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        //     throw std::runtime_error( "gladLoadGLLoader failed..");
-    	// }
+            // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+            //     throw std::runtime_error( "gladLoadGLLoader failed..");
+        	// }
 
-        std::cout << "OpenGL version: " << glGetString(GL_VERSION) << '\n';
-        std::cout << "Vendor: " << glGetString(GL_VENDOR) << '\n';
-        std::cout << "Renderer: " << glGetString(GL_RENDERER) << '\n' << '\n';
-        std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << '\n';
+            std::cout << "OpenGL version: " << glGetString(GL_VERSION) << '\n';
+            std::cout << "Vendor: " << glGetString(GL_VENDOR) << '\n';
+            std::cout << "Renderer: " << glGetString(GL_RENDERER) << '\n' << '\n';
+            std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << '\n';
 
-        glEnable( GL_DEPTH_TEST );
-        glShadeModel( GL_SMOOTH );
-        glDepthFunc( GL_LESS );
-        glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
+            glEnable( GL_DEPTH_TEST );
+            glShadeModel( GL_SMOOTH );
+            glDepthFunc( GL_LESS );
+            glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
 
-        oManager = new Manager( true );
+            oManager = new Manager( true );
     }
     return *oManager;
 }
